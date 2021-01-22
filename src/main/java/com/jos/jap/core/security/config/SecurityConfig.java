@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //String[] pattern = StringUtils.replace("/hello/*", " ", "").split(",");
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(jwtTokenFilter);
-        registration.addUrlPatterns("/hello/*");
+        registration.addUrlPatterns("/123/*");
         registration.setName("jwtTokenFilter");
         registration.setOrder(2147483647);
         registration.setDispatcherTypes(DispatcherType.REQUEST, new DispatcherType[0]);
