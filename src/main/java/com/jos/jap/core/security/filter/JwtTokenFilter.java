@@ -54,13 +54,11 @@ public class JwtTokenFilter implements Filter {
             if (!var5.hasNext()) {
                 try {
                     Authentication authentication = this.tokenExtractor.extract(httpRequest);
-                    System.out.println("hello1");
                     if (authentication == null) {
                         if (this.isAuthenticated()) {
                             LOGGER.debug("Clearing security context.");
                             SecurityContextHolder.clearContext();
                         }
-                        System.out.println("hello2");
                         LOGGER.debug("No Jwt token in request, will continue chain.");
                         ((HttpServletResponse)response).sendError(401, "No Jwt token in request.");
                         return;
