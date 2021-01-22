@@ -16,58 +16,25 @@ import java.security.spec.RSAPublicKeySpec;
 
 @RestController
 public class ExampleController {
-    private KeyStore store;
-    private final Object lock = new Object();
+    private static String ssoAppPrivateKey="-----BEGIN RSA PRIVATE KEY-----\n" +
+            "MIICXAIBAAKBgQCta1d924GnlmrJbuo+swoaFcBBi6WiRpVLIYymwEDN0et6Dnpv\n" +
+            "mGfQDqhQvA+PCT5NpohxIJJ7h2ZlWwlqBXEyxmISDDeIRtxRSksMRINvhJmig1A2\n" +
+            "rUQPDj+R65yDCrOJqplKckXxVx+jzdfCGMhKngDV8kSyqqo72x7G9Z8GuQIDAQAB\n" +
+            "AoGBAKpQEFXnfPcEj42SY3T+Sr6BfBYjOqEbZsWphkPB7iL0talijLYKXHIF4yGf\n" +
+            "ADy+nDSQh9FqZtHwkQybkqxP+fGA15h4Lik1Ej8soDZav3SdvLXtR58FpHsmnPED\n" +
+            "0xV/LHrEuB8jD/AMj1p0r0jfYmraWbbveYUvl5IeU291qgl9AkEA1vt3SHLoQG9Z\n" +
+            "KxlhR89Fi5q3YdApJnAtErtHFDkoCqDQMcNU0kj+1QuqepKeWtsGCeZa6mn2ETNn\n" +
+            "FLjX+EMCvwJBAM6ByP7SlZlsDrLEd6V/x5T5SaqtDGViIwBXThR2GIxUaH6Ydfru\n" +
+            "lJEjlNK6aoyzbEtQY8IHVkyb7AP9mSLgbIcCQDs8au+xicFHbSBtC9sHh7gh12nC\n" +
+            "O7R1sFW6+Kjf3uKe0P8FPXf72QvG/SBtCekq9I0BxgdVTxIKQdr527hybm0CQBy/\n" +
+            "7N+tKa6mYJV6zL15wKt42UytsuAafYz6mqA2oMxIpBOb3jEFLiHWtk1wLo1QHW+O\n" +
+            "zZShuN4Jhx43HC7C19kCQB0/bRoI2PEG4Zi0pZidVsoOagEMFpd8zBjXD3qzFzDt\n" +
+            "Ugt1AtKUokaRaF+n0X1YOa3CTl5opZAm8Oclh/KyToQ=\n" +
+            "-----END RSA PRIVATE KEY-----";
 
     @GetMapping("/hello")
     public String hello() {
-//        String keyPath = "hello";
-//        String keyPass = "hello2";
-//        ClassPathResource resource = new ClassPathResource(keyPath);
-//        char[] pem = keyPass.toCharArray();
-//            synchronized (lock) {
-//                if (store == null) {
-//                    synchronized (lock) {
-//                        try {
-//                            store = KeyStore.getInstance("jks");
-//                        } catch (KeyStoreException e) {
-//                            e.printStackTrace();
-//                        }
-//                        try {
-//                            store.load(resource.getInputStream(), pem);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        } catch (NoSuchAlgorithmException e) {
-//                            e.printStackTrace();
-//                        } catch (CertificateException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//            }
-//        RSAPrivateCrtKey key = null;
-//        try {
-//            key = (RSAPrivateCrtKey) store.getKey("keyAlias", pem);
-//        } catch (KeyStoreException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (UnrecoverableKeyException e) {
-//            e.printStackTrace();
-//        }
-        RSAPublicKeySpec spec = new RSAPublicKeySpec(key.getModulus(), key.getPublicExponent());
-        PublicKey publicKey = null;
-        try {
-            publicKey = KeyFactory.getInstance("RSA").generatePublic(spec);
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        KeyPair keyPair = new KeyPair(publicKey, key);
-        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-
-        RsaSigner signer = new RsaSigner(privateKey);
-        return JwtHelper.encode("payload", signer).getEncoded();
+        RsaSigner signer = new RsaSigner(ssoAppPrivateKey);
+        return JwtHelper.encode("{\"username\":\"hua\",\"password\":\"1321\"}", signer).getEncoded();
     }
 }
