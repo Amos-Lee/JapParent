@@ -33,18 +33,18 @@ public class JwtTokenExtractor implements TokenExtractor {
     }
 
     private static String extractHeaderToken(HttpServletRequest request) {
-        Enumeration headers = request.getHeaders("Jwt_Token");
+        Enumeration headers = request.getHeaders("Authorization");
         String value = null;
 
-        while(headers.hasMoreElements()) {
-            value = (String)headers.nextElement();
+        while (headers.hasMoreElements()) {
+            value = (String) headers.nextElement();
             if (value.toLowerCase().startsWith("Bearer".toLowerCase())) {
                 break;
             }
         }
 
         if (value == null) {
-            value = (String)request.getAttribute("Jwt_Token");
+            value = (String) request.getAttribute("Jwt_Token");
         }
 
         if (StringUtils.isBlank(value)) {
@@ -78,8 +78,8 @@ public class JwtTokenExtractor implements TokenExtractor {
         if (values != null) {
             var3 = values.iterator();
 
-            while(var3.hasNext()) {
-                value = (String)var3.next();
+            while (var3.hasNext()) {
+                value = (String) var3.next();
                 if (value != null && value.toLowerCase().startsWith("Bearer".toLowerCase())) {
                     returnVal = value;
                     break;
@@ -92,8 +92,8 @@ public class JwtTokenExtractor implements TokenExtractor {
             if (values != null) {
                 var3 = values.iterator();
 
-                while(var3.hasNext()) {
-                    value = (String)var3.next();
+                while (var3.hasNext()) {
+                    value = (String) var3.next();
                     if (value != null && value.toLowerCase().startsWith("Bearer".toLowerCase())) {
                         returnVal = value;
                         break;

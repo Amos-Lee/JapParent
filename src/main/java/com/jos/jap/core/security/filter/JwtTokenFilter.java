@@ -46,7 +46,7 @@ public class JwtTokenFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest)request;
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
         Iterator var5 = this.publicPermissions.iterator();
 
         PublicPermission publicPermission;
@@ -60,13 +60,13 @@ public class JwtTokenFilter implements Filter {
                             SecurityContextHolder.clearContext();
                         }
                         LOGGER.debug("No Jwt token in request, will continue chain.");
-                        ((HttpServletResponse)response).sendError(401, "No Jwt token in request.");
+                        ((HttpServletResponse) response).sendError(401, "No Jwt token in request.");
                         return;
                     }
 
                     request.setAttribute(OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE, authentication.getPrincipal());
                     if (authentication instanceof AbstractAuthenticationToken) {
-                        AbstractAuthenticationToken needsDetails = (AbstractAuthenticationToken)authentication;
+                        AbstractAuthenticationToken needsDetails = (AbstractAuthenticationToken) authentication;
                         needsDetails.setDetails(new OAuth2AuthenticationDetails(httpRequest));
                     }
 
@@ -77,14 +77,14 @@ public class JwtTokenFilter implements Filter {
                 } catch (OAuth2Exception var7) {
                     SecurityContextHolder.clearContext();
                     LOGGER.debug("Authentication request failed: ", var7);
-                    ((HttpServletResponse)response).sendError(401, "Invalid JWT token.");
+                    ((HttpServletResponse) response).sendError(401, "Invalid JWT token.");
                 }
 
                 return;
             }
 
-            publicPermission = (PublicPermission)var5.next();
-        } while(!MATCHER.match(publicPermission.path, httpRequest.getRequestURI()) || !publicPermission.method.matches(httpRequest.getMethod()));
+            publicPermission = (PublicPermission) var5.next();
+        } while (!MATCHER.match(publicPermission.path, httpRequest.getRequestURI()) || !publicPermission.method.matches(httpRequest.getMethod()));
 
         chain.doFilter(request, response);
     }
@@ -97,13 +97,13 @@ public class JwtTokenFilter implements Filter {
         if (authentication == null) {
             throw new InvalidTokenException("Invalid token (token not found)");
         } else {
-            String token = (String)authentication.getPrincipal();
+            String token = (String) authentication.getPrincipal();
             OAuth2Authentication auth = this.tokenServices.loadAuthentication(token);
             if (auth == null) {
                 throw new InvalidTokenException("Invalid token: " + token);
             } else {
                 if (authentication.getDetails() instanceof OAuth2AuthenticationDetails) {
-                    OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails)authentication.getDetails();
+                    OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
                     if (!details.equals(auth.getDetails())) {
                         details.setDecodedDetails(auth.getDetails());
                     }
