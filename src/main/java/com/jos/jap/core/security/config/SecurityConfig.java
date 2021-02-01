@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -24,11 +26,6 @@ import javax.servlet.DispatcherType;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
-
-    @Override
-    public void configure(WebSecurity web) {
-        (web.ignoring().antMatchers(new String[]{"/actuator/**"})).antMatchers(new String[]{"/prometheus"});
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,48 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public FilterRegistrationBean someFilterRegistration(JwtTokenFilter jwtTokenFilter) {
-        //String[] pattern = StringUtils.replace("/hello/*", " ", "").split(",");
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(jwtTokenFilter);
-        registration.addUrlPatterns("/123/*");
-        registration.setName("jwtTokenFilter");
-        registration.setOrder(2147483647);
-        registration.setDispatcherTypes(DispatcherType.REQUEST, new DispatcherType[0]);
-        return registration;
-    }
-
-    @Bean
-    public JwtTokenExtractor jwtTokenExtractor() {
-        return new JwtTokenExtractor();
-    }
-
-    @Bean
-    public JwtTokenFilter jwtTokenFilter(PublicPermissionOperationPlugin publicPermissionOperationPlugin, JwtTokenExtractor jwtTokenExtractor) {
-        return new JwtTokenFilter(this.tokenServices(), jwtTokenExtractor, publicPermissionOperationPlugin.getPublicPaths());
-    }
-
-    private DefaultTokenServices tokenServices() {
-        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(this.tokenStore());
-        return defaultTokenServices;
-    }
-
-    private TokenStore tokenStore() {
-        return new JwtTokenStore(this.accessTokenConverter());
-    }
-
-    private JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        //converter.setAccessTokenConverter(new CustomTokenConverter());
-        converter.setSigningKey("hzero");
-
-        try {
-            converter.afterPropertiesSet();
-        } catch (Exception var3) {
-            LOGGER.warn("error.ResourceServerConfiguration.accessTokenConverter {}", var3.getMessage());
-        }
-
-        return converter;
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 }
