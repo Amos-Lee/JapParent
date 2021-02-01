@@ -29,19 +29,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        ((ExpressionUrlAuthorizationConfigurer.AuthorizedUrl) ((http
-                .httpBasic()
-                .disable())
+        http.authorizeRequests()
+                .antMatchers("/oauth/**", "/login/**", "/logout/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .permitAll()
+                .and()
                 .csrf()
-                .disable())
-                .authorizeRequests()
-                .antMatchers(new String[]{"/monitor/**"}))
-                .permitAll();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .disable();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
