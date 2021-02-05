@@ -1,5 +1,6 @@
 package com.jos.jap.core.security.config;
 
+import com.jos.jap.core.security.custom.CustomClientDetailsService;
 import com.jos.jap.core.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +24,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private UserService userService;
     @Autowired
+    private CustomClientDetailsService clientDetailsService;
+    @Autowired
     @Qualifier("jwtTokenStore")
     private TokenStore tokenStore;
     @Autowired
@@ -38,11 +41,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-                .withClient("client")
-                .secret(passwordEncoder.encode("123456"))
-                .redirectUris("http://www.baidu.com")
-                .scopes("all")
-                .authorizedGrantTypes("authorization_code", "password");
+        clients.withClientDetails(clientDetailsService);
     }
 }
