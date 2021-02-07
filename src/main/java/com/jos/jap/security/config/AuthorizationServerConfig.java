@@ -1,7 +1,7 @@
-package com.jos.jap.core.security.config;
+package com.jos.jap.security.config;
 
-import com.jos.jap.core.security.custom.CustomClientDetailsService;
-import com.jos.jap.core.security.service.UserService;
+import com.jos.jap.security.custom.CustomClientDetailsService;
+import com.jos.jap.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;

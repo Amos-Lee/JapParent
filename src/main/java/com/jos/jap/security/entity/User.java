@@ -1,4 +1,4 @@
-package com.jos.jap.core.security.entity;
+package com.jos.jap.security.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

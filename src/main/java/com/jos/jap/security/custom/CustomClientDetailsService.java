@@ -1,6 +1,6 @@
-package com.jos.jap.core.security.custom;
+package com.jos.jap.security.custom;
 
-import com.jos.jap.core.security.entity.CustomClientDetails;
+import com.jos.jap.security.entity.CustomClientDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetails;

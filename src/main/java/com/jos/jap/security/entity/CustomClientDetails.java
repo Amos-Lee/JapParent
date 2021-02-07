@@ -1,4 +1,4 @@
-package com.jos.jap.core.security.entity;
+package com.jos.jap.security.entity;
 
 import java.util.List;
 import java.util.Objects;

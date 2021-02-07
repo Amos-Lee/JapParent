@@ -1,4 +1,4 @@
-package com.jos.jap.core.security.config;
+package com.jos.jap.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

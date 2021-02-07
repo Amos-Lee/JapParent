@@ -1,4 +1,4 @@
-package com.jos.jap.core.security.service;
+package com.jos.jap.security.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
