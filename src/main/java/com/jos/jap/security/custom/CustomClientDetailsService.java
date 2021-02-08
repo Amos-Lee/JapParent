@@ -23,7 +23,7 @@ public class CustomClientDetailsService implements ClientDetailsService {
         clientDetails.setClientSecret(passwordEncoder.encode("123456"));
         clientDetails.setRegisteredRedirectUri(StringUtils.commaDelimitedListToSet("http://www.baidu.com"));
         clientDetails.setScope(StringUtils.commaDelimitedListToSet("all"));
-        clientDetails.setAuthorizedGrantTypes(Arrays.asList("authorization_code", "password"));
+        clientDetails.setAuthorizedGrantTypes(Arrays.asList("authorization_code", "password","implicit"));
         return clientDetails;
     }
 }

@@ -74,7 +74,7 @@ public class OpenLoginTokenService {
     protected OAuth2AccessToken createAccessToken() {
 
         Map<String, String> parameters = new HashMap<>();
-        parameters.put("hello", "hi");
+        parameters.put("client_id", "client");
         TokenRequest tokenRequest = null;
         OAuth2AccessToken token = null;
 

@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.jos.jap.security.config.SecurityConfig,\
+com.jos.jap.security.config.TokenConfiguration
