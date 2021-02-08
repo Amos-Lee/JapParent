@@ -75,15 +75,13 @@ public class OpenLoginTokenService {
 
         Map<String, String> parameters = new HashMap<>();
         parameters.put("client_id", "client");
-        TokenRequest tokenRequest = null;
-        OAuth2AccessToken token = null;
 
         // 简化模式
         AuthorizationRequest authorizationRequest = this.getOAuth2RequestFactory().createAuthorizationRequest(parameters);
         authorizationRequest.setApproved(true);
-        tokenRequest = this.getOAuth2RequestFactory().createTokenRequest(authorizationRequest, "grantType");
+        TokenRequest tokenRequest = this.getOAuth2RequestFactory().createTokenRequest(authorizationRequest, "grantType");
         OAuth2Request storedOAuth2Request = this.getOAuth2RequestFactory().createOAuth2Request(authorizationRequest);
-        token = this.getTokenGranter().grant("implicit", new ImplicitTokenRequest(tokenRequest, storedOAuth2Request));
+        OAuth2AccessToken token = this.getTokenGranter().grant("implicit", new ImplicitTokenRequest(tokenRequest, storedOAuth2Request));
 
         return token;
     }
