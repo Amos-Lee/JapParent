@@ -3,10 +3,12 @@ package com.jos.jap.security.social;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
 
+@Component
 public class CustomUsersConnectionRepository implements UsersConnectionRepository {
     @Override
     public List<String> findUserIdsWithConnection(Connection<?> connection) {

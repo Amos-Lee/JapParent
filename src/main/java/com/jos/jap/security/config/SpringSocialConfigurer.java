@@ -24,10 +24,9 @@ public class SpringSocialConfigurer extends SecurityConfigurerAdapter<DefaultSec
         SocialAuthenticationServiceLocator authServiceLocator = (SocialAuthenticationServiceLocator) this.getDependency(applicationContext, SocialAuthenticationServiceLocator.class);
         UsersConnectionRepository usersConnectionRepository = this.getDependency(applicationContext, UsersConnectionRepository.class);
         UserIdSource userIdSource = this.getDependency(applicationContext, UserIdSource.class);
-        SocialAuthenticationProvider socialAuthenticationProvider = (SocialAuthenticationProvider)this.getDependency(applicationContext, SocialAuthenticationProvider.class);
         SocialAuthenticationFilter filter = new SocialAuthenticationFilter((AuthenticationManager) http.getSharedObject(AuthenticationManager.class), userIdSource, usersConnectionRepository, authServiceLocator);
 
-        http.authenticationProvider(socialAuthenticationProvider).addFilterBefore((Filter)this.postProcess(filter), AbstractPreAuthenticatedProcessingFilter.class);
+        http.addFilterBefore((Filter)this.postProcess(filter), AbstractPreAuthenticatedProcessingFilter.class);
     }
 
     private <T> T getDependency(ApplicationContext applicationContext, Class<T> dependencyType) {

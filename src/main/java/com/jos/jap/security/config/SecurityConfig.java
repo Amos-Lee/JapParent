@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.security.SocialAuthenticationServiceLocator;
+import org.springframework.social.security.SocialAuthenticationServiceRegistry;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -42,5 +44,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SocialAuthenticationServiceLocator socialAuthenticationServiceLocator(){
+        return new SocialAuthenticationServiceRegistry();
     }
 }
