@@ -27,7 +27,6 @@ public class TokenConfiguration {
 
     @PostConstruct
     public void init() {
-        endpoints.setClientDetailsService(clientDetailsService);
         for (AuthorizationServerConfigurer configurer : configurers) {
             try {
                 configurer.configure(endpoints);

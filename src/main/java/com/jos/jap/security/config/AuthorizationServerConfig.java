@@ -34,7 +34,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.authenticationManager(authenticationManager)
                 .userDetailsService(userService)
                 .tokenStore(tokenStore)
-                .accessTokenConverter(jwtAccessTokenConverter);
+                .accessTokenConverter(jwtAccessTokenConverter)
+                .setClientDetailsService(clientDetailsService);
     }
 
     @Override
