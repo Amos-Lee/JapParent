@@ -1,6 +1,5 @@
 package com.jos.jap.security.config;
 
-import com.jos.jap.security.custom.CustomClientDetailsService;
 import com.jos.jap.security.token.OpenLoginTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
