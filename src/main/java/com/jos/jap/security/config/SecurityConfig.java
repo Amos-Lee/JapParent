@@ -27,6 +27,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable();
+
+        // open login
+        SpringSocialConfigurer configurer = new SpringSocialConfigurer();
+        http.apply(configurer);
     }
 
     @Override
