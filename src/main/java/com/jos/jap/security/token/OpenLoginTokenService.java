@@ -3,11 +3,13 @@ package com.jos.jap.security.token;
 import com.jos.jap.core.constant.ChannelEnum;
 import com.jos.jap.core.constant.SocialConstant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidRequestException;
 import org.springframework.security.oauth2.common.exceptions.UnsupportedGrantTypeException;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.implicit.ImplicitTokenRequest;
 import org.springframework.social.connect.Connection;
@@ -19,17 +21,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@Service
 public class OpenLoginTokenService {
-    //    @Autowired
-//    private SocialAuthenticationServiceLocator authServiceLocator;
-    @Autowired
+
     private TokenGranter tokenGranter;
-    @Autowired
+
     private OAuth2RequestFactory oAuth2RequestFactory;
+
+    public OpenLoginTokenService(TokenGranter tokenGranter,
+                                 OAuth2RequestFactory oAuth2RequestFactory) {
+        this.tokenGranter = tokenGranter;
+        this.oAuth2RequestFactory = oAuth2RequestFactory;
+    }
+
+    private AuthorizationServerEndpointsConfigurer endpoints = new AuthorizationServerEndpointsConfigurer();
 
     public String loginForToken(HttpServletRequest request) {
 //        // 封装请求参数
@@ -70,12 +79,20 @@ public class OpenLoginTokenService {
         OAuth2AccessToken token = null;
 
         // 简化模式
-        AuthorizationRequest authorizationRequest = oAuth2RequestFactory.createAuthorizationRequest(parameters);
+        AuthorizationRequest authorizationRequest = this.getOAuth2RequestFactory().createAuthorizationRequest(parameters);
         authorizationRequest.setApproved(true);
-        tokenRequest = oAuth2RequestFactory.createTokenRequest(authorizationRequest, "grantType");
-        OAuth2Request storedOAuth2Request = oAuth2RequestFactory.createOAuth2Request(authorizationRequest);
-        token = tokenGranter.grant("implicit", new ImplicitTokenRequest(tokenRequest, storedOAuth2Request));
+        tokenRequest = this.getOAuth2RequestFactory().createTokenRequest(authorizationRequest, "grantType");
+        OAuth2Request storedOAuth2Request = this.getOAuth2RequestFactory().createOAuth2Request(authorizationRequest);
+        token = this.getTokenGranter().grant("implicit", new ImplicitTokenRequest(tokenRequest, storedOAuth2Request));
 
         return token;
+    }
+
+    protected OAuth2RequestFactory getOAuth2RequestFactory() {
+        return oAuth2RequestFactory;
+    }
+
+    protected TokenGranter getTokenGranter() {
+        return tokenGranter;
     }
 }
