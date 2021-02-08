@@ -20,9 +20,6 @@ public class TokenConfiguration {
     private AuthorizationServerEndpointsConfigurer endpoints = new AuthorizationServerEndpointsConfigurer();
 
     @Autowired
-    private CustomClientDetailsService clientDetailsService;
-
-    @Autowired
     private List<AuthorizationServerConfigurer> configurers = Collections.emptyList();
 
     @PostConstruct
