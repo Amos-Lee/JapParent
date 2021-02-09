@@ -68,7 +68,7 @@ public class OpenLoginTokenService implements ApplicationContextAware {
         String uniqueProviderId = providerId + "@" + channel;
 
         ConnectionData connectionData = new ConnectionData(uniqueProviderId, providerUserId, null, null, null, openAccessToken, null, null, null);
-        SocialAuthenticationService<?> authService = getAuthServiceLocator().getAuthenticationService("1234");
+        SocialAuthenticationService<?> authService = getAuthServiceLocator().getAuthenticationService(uniqueProviderId);
         Connection connection = authService.getConnectionFactory().createConnection(connectionData);
         connection.sync();
         return new SocialAuthenticationToken(connection, null);
