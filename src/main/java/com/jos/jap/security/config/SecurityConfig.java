@@ -1,7 +1,10 @@
 package com.jos.jap.security.config;
 
+import com.jos.jap.qq.config.QQSocialBuilder;
+import com.jos.jap.qq.connect.SocialConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,17 +12,24 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.connect.support.OAuth1ConnectionFactory;
+import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.social.security.SocialAuthenticationServiceLocator;
 import org.springframework.social.security.SocialAuthenticationServiceRegistry;
+import org.springframework.social.security.provider.OAuth1AuthenticationService;
+import org.springframework.social.security.provider.OAuth2AuthenticationService;
+import org.springframework.social.security.provider.SocialAuthenticationService;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
+    @Autowired
+    private QQSocialBuilder qqSocialBuilder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/oauth/**", "/login/**", "/logout/**","/token/**")
+                .antMatchers("/oauth/**", "/login/**", "/logout/**", "/token/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -47,7 +57,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SocialAuthenticationServiceLocator socialAuthenticationServiceLocator(){
-        return new SocialAuthenticationServiceRegistry();
+    public SocialAuthenticationServiceLocator socialAuthenticationServiceLocator() {
+        SocialAuthenticationServiceRegistry socialAuthenticationServiceLocator = new SocialAuthenticationServiceRegistry();
+        SocialConnectionFactory connectionFactory = qqSocialBuilder.buildConnectionFactory();
+        SocialAuthenticationService socialAuthenticationService = new OAuth2AuthenticationService(connectionFactory);
+        socialAuthenticationServiceLocator.addAuthenticationService(socialAuthenticationService);
+        return socialAuthenticationServiceLocator;
     }
 }
