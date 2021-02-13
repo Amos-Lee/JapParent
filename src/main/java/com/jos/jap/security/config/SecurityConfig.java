@@ -4,7 +4,6 @@ import com.jos.jap.qq.config.QQSocialBuilder;
 import com.jos.jap.qq.connect.SocialConnectionFactory;
 import com.jos.jap.security.custom.CustomSocialAuthenticationProvider;
 import com.jos.jap.security.social.CustomSocialUserDetailsService;
-import com.jos.jap.security.social.SocialUserProviderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.support.OAuth1ConnectionFactory;
 import org.springframework.social.security.*;
-import org.springframework.social.security.provider.OAuth1AuthenticationService;
 import org.springframework.social.security.provider.OAuth2AuthenticationService;
 import org.springframework.social.security.provider.SocialAuthenticationService;
 

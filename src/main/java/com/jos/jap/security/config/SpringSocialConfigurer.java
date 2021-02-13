@@ -1,19 +1,15 @@
 package com.jos.jap.security.config;
 
-import com.jos.jap.security.social.SocialProviderRepository;
-import com.jos.jap.security.social.SocialUserProviderRepository;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.social.UserIdSource;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.security.SocialAuthenticationFilter;
-import org.springframework.social.security.SocialAuthenticationProvider;
 import org.springframework.social.security.SocialAuthenticationServiceLocator;
 
 import javax.servlet.Filter;
