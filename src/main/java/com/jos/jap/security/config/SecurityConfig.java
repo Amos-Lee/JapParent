@@ -2,9 +2,13 @@ package com.jos.jap.security.config;
 
 import com.jos.jap.qq.config.QQSocialBuilder;
 import com.jos.jap.qq.connect.SocialConnectionFactory;
+import com.jos.jap.security.custom.CustomSocialAuthenticationProvider;
+import com.jos.jap.security.social.CustomSocialUserDetailsService;
+import com.jos.jap.security.social.SocialUserProviderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,10 +16,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.support.OAuth1ConnectionFactory;
-import org.springframework.social.security.SocialAuthenticationFilter;
-import org.springframework.social.security.SocialAuthenticationServiceLocator;
-import org.springframework.social.security.SocialAuthenticationServiceRegistry;
+import org.springframework.social.security.*;
 import org.springframework.social.security.provider.OAuth1AuthenticationService;
 import org.springframework.social.security.provider.OAuth2AuthenticationService;
 import org.springframework.social.security.provider.SocialAuthenticationService;
@@ -63,5 +66,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         SocialAuthenticationService socialAuthenticationService = new OAuth2AuthenticationService(connectionFactory);
         socialAuthenticationServiceLocator.addAuthenticationService(socialAuthenticationService);
         return socialAuthenticationServiceLocator;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(SocialUserDetailsService.class)
+    public SocialUserDetailsService socialUserDetailsService() {
+        return new CustomSocialUserDetailsService();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(SocialAuthenticationProvider.class)
+    public SocialAuthenticationProvider socialAuthenticationProvider(UsersConnectionRepository usersConnectionRepository,
+                                                                     SocialUserDetailsService socialUserDetailsService) {
+        return new CustomSocialAuthenticationProvider(usersConnectionRepository, socialUserDetailsService);
     }
 }

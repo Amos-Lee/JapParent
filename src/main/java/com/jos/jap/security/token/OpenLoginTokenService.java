@@ -38,11 +38,14 @@ public class OpenLoginTokenService implements ApplicationContextAware {
 
     private SocialAuthenticationServiceLocator authServiceLocator;
     private ApplicationContext applicationContext;
+    private AuthenticationProvider authenticationProvider;
 
     public OpenLoginTokenService(TokenGranter tokenGranter,
-                                 OAuth2RequestFactory oAuth2RequestFactory) {
+                                 OAuth2RequestFactory oAuth2RequestFactory,
+                                 AuthenticationProvider authenticationProvider) {
         this.tokenGranter = tokenGranter;
         this.oAuth2RequestFactory = oAuth2RequestFactory;
+        this.authenticationProvider = authenticationProvider;
     }
 
     private AuthorizationServerEndpointsConfigurer endpoints = new AuthorizationServerEndpointsConfigurer();
@@ -51,9 +54,9 @@ public class OpenLoginTokenService implements ApplicationContextAware {
         // 封装请求参数
         Authentication authRequest = attemptAuthentication(request);
         // 认证
-//        Authentication authentication = authenticationProvider.authenticate(authRequest);
-//        // 设置登录成功
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication authentication = authenticationProvider.authenticate(authRequest);
+        // 设置登录成功
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         // 创建token
         OAuth2AccessToken token = createAccessToken();
         return token.toString();

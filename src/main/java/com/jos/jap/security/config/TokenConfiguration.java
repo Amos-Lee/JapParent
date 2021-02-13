@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerEndpointsConfiguration;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.social.security.SocialAuthenticationProvider;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
@@ -33,10 +34,11 @@ public class TokenConfiguration {
     }
 
     @Bean
-    public OpenLoginTokenService openLoginTokenService() {
+    public OpenLoginTokenService openLoginTokenService(SocialAuthenticationProvider socialAuthenticationProvider) {
         OpenLoginTokenService tokenService = new OpenLoginTokenService(
                 endpoints.getTokenGranter(),
-                endpoints.getOAuth2RequestFactory()
+                endpoints.getOAuth2RequestFactory(),
+                socialAuthenticationProvider
         );
         return tokenService;
     }
