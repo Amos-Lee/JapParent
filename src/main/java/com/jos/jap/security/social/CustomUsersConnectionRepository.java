@@ -14,7 +14,7 @@ import java.util.Set;
 public class CustomUsersConnectionRepository implements UsersConnectionRepository {
     @Override
     public List<String> findUserIdsWithConnection(Connection<?> connection) {
-        return Arrays.asList("hello");
+        return Arrays.asList("admin");
     }
 
     @Override
