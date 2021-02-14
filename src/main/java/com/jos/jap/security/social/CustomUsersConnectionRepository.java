@@ -1,5 +1,7 @@
 package com.jos.jap.security.social;
 
+import com.jos.jap.qq.api.QQApi;
+import com.jos.jap.qq.api.SocialApi;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
@@ -14,7 +16,8 @@ import java.util.Set;
 public class CustomUsersConnectionRepository implements UsersConnectionRepository {
     @Override
     public List<String> findUserIdsWithConnection(Connection<?> connection) {
-        return Arrays.asList("admin");
+        SocialApi qqApi = (SocialApi) connection.getApi();
+        return Arrays.asList(qqApi.getUser().getUserId());
     }
 
     @Override
