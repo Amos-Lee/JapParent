@@ -12,6 +12,6 @@ public class QQServiceProvider extends SocialServiceProvider {
 
     @Override
     public QQApi getApi(String s) {
-        return new DefaultQQApi();
+        return new DefaultQQApi(s);
     }
 }
