@@ -14,6 +14,9 @@ public class DefaultQQApi extends AbstractSocialApi implements QQApi {
     }
 
     public synchronized SocialUser getUser() {
+        String openIdUrl = "https://graph.qq.com/oauth2.0/me";
+        String openIdResult = this.getRestTemplate().getForObject(openIdUrl, String.class, new Object[0]);
+        System.out.println(openIdResult);
         String userInfoUrl = "https://graph.qq.com/user/get_user_info?oauth_consumer_key={appId}&openid={openId}";
         String result = this.getRestTemplate().getForObject(userInfoUrl, String.class, new Object[]{"123", "123"});
         System.out.println(result);
