@@ -23,8 +23,6 @@ import org.springframework.social.security.provider.SocialAuthenticationService;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
-    @Autowired
-    private QQSocialBuilder qqSocialBuilder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -54,27 +52,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public SocialAuthenticationServiceLocator socialAuthenticationServiceLocator() {
-        SocialAuthenticationServiceRegistry socialAuthenticationServiceLocator = new SocialAuthenticationServiceRegistry();
-        SocialConnectionFactory connectionFactory = qqSocialBuilder.buildConnectionFactory();
-        SocialAuthenticationService socialAuthenticationService = new OAuth2AuthenticationService(connectionFactory);
-        socialAuthenticationServiceLocator.addAuthenticationService(socialAuthenticationService);
-        return socialAuthenticationServiceLocator;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(SocialUserDetailsService.class)
-    public SocialUserDetailsService socialUserDetailsService() {
-        return new CustomSocialUserDetailsService();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(SocialAuthenticationProvider.class)
-    public SocialAuthenticationProvider socialAuthenticationProvider(UsersConnectionRepository usersConnectionRepository,
-                                                                     SocialUserDetailsService socialUserDetailsService) {
-        return new CustomSocialAuthenticationProvider(usersConnectionRepository, socialUserDetailsService);
     }
 }
