@@ -8,7 +8,8 @@ public class SysUser {
     private String password;
     private Date creationDate;
     private Long createdBy;
-    private Date lastUpdateBy;
+    private Date lastUpdateDate;
+    private Long lastUpdatedBy;
     private Long objectVersion;
 
     public Long getUserId() {
@@ -51,12 +52,20 @@ public class SysUser {
         this.createdBy = createdBy;
     }
 
-    public Date getLastUpdateBy() {
-        return lastUpdateBy;
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
     }
 
-    public void setLastUpdateBy(Date lastUpdateBy) {
-        this.lastUpdateBy = lastUpdateBy;
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public Long getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
+
+    public void setLastUpdatedBy(Long lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
     }
 
     public Long getObjectVersion() {
