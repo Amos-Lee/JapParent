@@ -32,8 +32,20 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.jos.jap"))
                 .paths(PathSelectors.any())
                 .build()
+                .apiInfo(apiInfo())
                 .securitySchemes(Collections.singletonList(oauth()))
                 .securityContexts(Collections.singletonList(securityContext()));
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("jap api")
+                .description("jap api")
+                .license("Apache 2.0")
+                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+                .termsOfServiceUrl("")
+                .version("1.0")
+                .build();
     }
 
     @Bean
@@ -64,8 +76,8 @@ public class SwaggerConfig {
     public SecurityConfiguration securityInfo() {
         return new SecurityConfiguration("client",
                 passwordEncoder.encode("123456"),
-                "realm", "client",
-                "apiKey", ApiKeyVehicle.HEADER, "api_key", "");
+                "default", "default",
+                "token", ApiKeyVehicle.HEADER, "token", ",");
     }
 
     private SecurityContext securityContext() {
