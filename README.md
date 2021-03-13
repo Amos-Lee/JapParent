@@ -18,4 +18,7 @@ Postman:
     client_id：client
     redirect_uri：http://www.baidu.com
     scopes：all
+    
+Swagger:
+    http://localhost:8080/swagger-ui.html
 

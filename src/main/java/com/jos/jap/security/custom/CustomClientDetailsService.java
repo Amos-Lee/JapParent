@@ -21,7 +21,7 @@ public class CustomClientDetailsService implements ClientDetailsService {
         CustomClientDetails clientDetails = new CustomClientDetails();
         clientDetails.setClientId("client");
         clientDetails.setClientSecret(passwordEncoder.encode("123456"));
-        clientDetails.setRegisteredRedirectUri(StringUtils.commaDelimitedListToSet("http://www.baidu.com"));
+        clientDetails.setRegisteredRedirectUri(StringUtils.commaDelimitedListToSet("http://localhost:8080/webjars/springfox-swagger-ui/oauth2-redirect.html"));
         clientDetails.setScope(StringUtils.commaDelimitedListToSet("all"));
         clientDetails.setAuthorizedGrantTypes(Arrays.asList("authorization_code", "password","implicit"));
         return clientDetails;
