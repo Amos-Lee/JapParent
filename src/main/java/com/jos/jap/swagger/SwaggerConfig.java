@@ -44,11 +44,8 @@ public class SwaggerConfig {
     @Bean
     List<GrantType> grantTypes() {
         List<GrantType> grantTypes = new ArrayList<>();
-        TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint(
-                "http://localhost:8080/oauth/authorize",
-                "clientId", "secretKey");
-        TokenEndpoint tokenEndpoint = new TokenEndpoint("http://localhost:8080/oauth/token", "code");
-        grantTypes.add(new AuthorizationCodeGrant(tokenRequestEndpoint, tokenEndpoint));
+        ImplicitGrant implicitGrant = new ImplicitGrant(new LoginEndpoint("http://localhost:8080/oauth/authorize"), "code");
+        grantTypes.add(implicitGrant);
         return grantTypes;
     }
 
@@ -67,10 +64,6 @@ public class SwaggerConfig {
 
     @Bean
     public SecurityConfiguration securityInfo() {
-//        return new SecurityConfiguration("client",
-//                passwordEncoder.encode("123456"),
-//                "default", "default",
-//                "token", ApiKeyVehicle.HEADER, "token", ",");
         return new SecurityConfiguration("client",
                 "unknown",
                 "default", "default", ",", null, false);
