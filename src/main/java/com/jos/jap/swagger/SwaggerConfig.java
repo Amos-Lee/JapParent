@@ -1,17 +1,13 @@
 package com.jos.jap.swagger;
 
 import com.google.common.collect.Lists;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import springfox.documentation.builders.*;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.ApiKeyVehicle;
 import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -22,9 +18,6 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Bean
     public Docket apiDocket() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -53,7 +46,7 @@ public class SwaggerConfig {
         List<GrantType> grantTypes = new ArrayList<>();
         TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint(
                 "http://localhost:8080/oauth/authorize",
-                "client", passwordEncoder.encode("123456"));
+                "clientId", "secretKey");
         TokenEndpoint tokenEndpoint = new TokenEndpoint("http://localhost:8080/oauth/token", "code");
         grantTypes.add(new AuthorizationCodeGrant(tokenRequestEndpoint, tokenEndpoint));
         return grantTypes;
@@ -74,10 +67,13 @@ public class SwaggerConfig {
 
     @Bean
     public SecurityConfiguration securityInfo() {
+//        return new SecurityConfiguration("client",
+//                passwordEncoder.encode("123456"),
+//                "default", "default",
+//                "token", ApiKeyVehicle.HEADER, "token", ",");
         return new SecurityConfiguration("client",
-                passwordEncoder.encode("123456"),
-                "default", "default",
-                "token", ApiKeyVehicle.HEADER, "token", ",");
+                "unknown",
+                "default", "default", ",", null, false);
     }
 
     private SecurityContext securityContext() {
